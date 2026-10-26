@@ -30,7 +30,7 @@ Install into your OMP skills folder:
 
 ```bash
 # User-level skill
-git clone https://github.com/alexyc9381/court-skill
+git clone https://github.com/Vonarian/court-skill
 cp -r court-skill/skills/court ~/.omp/skills/
 
 # Or project-level skill
