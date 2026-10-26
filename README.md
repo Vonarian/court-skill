@@ -1,9 +1,9 @@
 # The court skill
 
 When your AI assistant agrees with everything you say, put your idea on trial in front of a jury of 12 LLMs.
-Optimized for **OMP (Oh My Pi)** with full multi-agent subagent orchestration via the `task` tool, while remaining portable to other harnesses. Free, MIT, no signup, no API key, nothing to connect.
+Ported and optimized specifically for **OMP (Oh My Pi)** with native multi-agent batch execution via the `task` tool. Free, MIT licensed, no signup, no API key, nothing to connect.
 
-Originally created by **Alex Chen** ([@nocodealex](https://instagram.com/nocodealex)). Forked and optimized for OMP by default.
+Originally created by **Alex Chen** ([@nocodealex](https://instagram.com/nocodealex)) for Claude Code. This repository is an independent MIT fork maintained by [Vonarian](https://github.com/Vonarian) providing native OMP compatibility.
 
 Ask an AI "is this a good idea?" and it usually says yes. `/court` takes the same idea and runs a
 trial instead:
@@ -41,22 +41,12 @@ OMP discovers `court` automatically. You can invoke it via `/court` or refer to 
 
 ### For other harnesses
 
+This fork is developed and tested for **OMP**. If you use Claude Code, install the original upstream skill:
+
 ```bash
-# Claude Code:
-cp -r court-skill/skills/court ~/.claude/skills/
-
-# OpenCode / generic skills CLI:
-npx skills add Vonarian/court-skill
+# Upstream Claude Code skill by @nocodealex:
+git clone https://github.com/alexyc9381/court-skill ~/.claude/skills/court
 ```
-
-Or as a Claude plugin if using Claude Code:
-
-```
-/plugin marketplace add Vonarian/court-skill
-/plugin install court-skill@court-skill
-```
-
-Installed as a plugin, it shows up as `/court-skill:court`.
 ## Use
 
 ```
@@ -97,15 +87,18 @@ Go ahead. Credit it like this, in your caption or description:
 Tag [@nocodealex](https://instagram.com/nocodealex) so I can see it. Every verdict the skill writes already ends with the same credit, so leave it in the shot.
 
 Writing about it or citing it in a paper? Use **Cite this repository** in the sidebar on GitHub.
-
 ## Uninstall
 
-Remove the installed skill directory from your agent harness:
+Remove the installed skill directory from your OMP installation:
 
 ```bash
-rm -rf ~/.claude/skills/court   # Claude Code
-rm -rf ~/.omp/skills/court      # omp
+rm -rf ~/.omp/skills/court      # user-level
+rm -rf .omp/skills/court       # project-level
 ```
+
+## License and Attribution
+
+Released under the MIT License. Based on the original [court-skill](https://github.com/alexyc9381/court-skill) by Alex Chen ([@nocodealex](https://instagram.com/nocodealex)). This fork adds native OMP subagent batching and test coverage.
 
 The jury is made of language models, so treat the verdict as a structured
 second opinion, not legal, financial or professional advice.
