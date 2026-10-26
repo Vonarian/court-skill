@@ -46,13 +46,13 @@ OMP discovers `court` automatically. You can invoke it via `/court` or refer to 
 cp -r court-skill/skills/court ~/.claude/skills/
 
 # OpenCode / generic skills CLI:
-npx skills add alexyc9381/court-skill
+npx skills add Vonarian/court-skill
 ```
 
 Or as a Claude plugin if using Claude Code:
 
 ```
-/plugin marketplace add alexyc9381/court-skill
+/plugin marketplace add Vonarian/court-skill
 /plugin install court-skill@court-skill
 ```
 
