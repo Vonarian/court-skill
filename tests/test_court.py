@@ -47,7 +47,8 @@ class CourtTest(unittest.TestCase):
         state = self.open_trial("--jury", "3")
         court.main(["prompts", "jury"])
         j = court.jobs(state, "jury")[0]
-        text = open(j["brief"]).read()
+        with open(j["brief"], encoding="utf-8") as f:
+            text = f.read()
         self.assertIn(j["output"], text)
         self.assertIn("VOTE: GUILTY or NOT GUILTY", text)
         self.assertIn(os.path.abspath(os.path.join(state["dir"], "rebuttal", "defense.md")), text)

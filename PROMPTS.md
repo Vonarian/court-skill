@@ -1,6 +1,6 @@
 # Ready-made trials
 
-Paste any of these into Claude Code after installing the skill. Fill in the brackets with as much detail
+Paste any of these into your AI coding assistant or agent harness after installing the skill. Fill in the brackets with as much detail
 as you can: numbers, who it is for, what you have tried. The jury only knows what you tell it.
 
 1. **A business idea:** `/court I want to start [business] for [customer]. I have [money/time], [what I've done so far], and I'd charge [price].`
@@ -9,6 +9,6 @@ as you can: numbers, who it is for, what you have tried. The jury only knows wha
 4. **A big purchase:** `/court Buy [thing] for [price]. I'd use it for [reason]. The alternative is [alternative].`
 5. **Your code plan:** `/court Rewrite [part of the app] in [new approach] instead of [current approach]. Here's why: [reasons].`
 6. **A claim you believe:** `/court [the claim]. Here's my evidence: [evidence].`
-7. **A second opinion on Claude's own answer:** `/court The plan you just gave me is the right one.` (run it right after Claude suggests something)
+7. **A second opinion on the agent's own answer:** `/court The plan you just gave me is the right one.` (run it right after the agent suggests something)
 
 Short on usage? Add `--quick` for a jury of 6.

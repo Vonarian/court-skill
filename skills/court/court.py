@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Bookkeeping for the court skill: put an idea on trial in front of a jury of Claudes.
+"""Bookkeeping for the court skill: put an idea on trial in front of a jury of LLMs.
 
-The skill's orchestrator (Claude) drives the trial with these commands. Every sub-agent reads a
+The skill's orchestrator drives the trial with these commands. Every sub-agent reads a
 brief this script writes and writes one output file; this script checks the files, counts the votes
 and renders the verdict. All state lives in .court/<run>/ in the current directory.
 
@@ -30,7 +30,7 @@ PHASES = ["opening", "rebuttal", "jury", "judge"]
 DEFAULT_JURY = 12
 QUICK_JURY = 6
 WAVE = 6
-CREDIT = ("_Made with [/court](https://github.com/alexyc9381/court-skill), a free Claude Code skill by Alex Chen ([@nocodealex](https://instagram.com/nocodealex))._")
+CREDIT = ("_Made with [/court](https://github.com/alexyc9381/court-skill), an open-source AI skill (orig. by Alex Chen [@nocodealex])._")
 CHARGE = "The case fails as stated: it should not go ahead the way it is described."
 
 
@@ -64,7 +64,7 @@ def jury_size(args):
         return QUICK_JURY
     n = getattr(args, "jury", None) or DEFAULT_JURY
     if n < 3 or n > 12:
-        sys.exit("court: the jury must be 3 to 12 Claudes")
+        sys.exit("court: the jury must be 3 to 12 jurors")
     return n
 
 
@@ -190,7 +190,11 @@ def parse_vote(text):
 def tally(state):
     rows = []
     for j, juror in zip(jobs(state, "jury"), state["jury"]):
-        text = open(j["output"]).read() if done(j) else ""
+        if done(j):
+            with open(j["output"], encoding="utf-8") as f:
+                text = f.read()
+        else:
+            text = ""
         v = parse_vote(text)
         rows.append({"juror": juror["name"], "vote": v["vote"] if v else "NO VOTE",
                      "reason": v["reason"] if v else "", "fact": v["fact"] if v else "",
@@ -219,10 +223,15 @@ def verdict_line(t):
 
 def render(state):
     t = tally(state)
-    case = open(os.path.join(state["dir"], "case.md")).read().strip()
+    with open(os.path.join(state["dir"], "case.md"), encoding="utf-8") as f:
+        case = f.read().strip()
     first = case.splitlines()[0].lstrip("# ").strip() if case else "(empty case)"
     judge = jobs(state, "judge")[0]
-    judgment = open(judge["output"]).read().strip() if done(judge) else "_The judge has not ruled yet._"
+    if done(judge):
+        with open(judge["output"], encoding="utf-8") as f:
+            judgment = f.read().strip()
+    else:
+        judgment = "_The judge has not ruled yet._"
     lines = ["# The verdict: %s" % verdict_line(t), "",
              "**The case:** %s" % first, "", "**The charge:** %s" % CHARGE, "",
              "## How the jury voted", "", "| Juror | Vote | Why |", "|---|---|---|"]
@@ -250,7 +259,8 @@ def cmd_init(args):
     n = jury_size(args)
     if not os.path.exists(args.case_file):
         sys.exit("court: case file not found: %s" % args.case_file)
-    case = open(args.case_file).read().strip()
+    with open(args.case_file, encoding="utf-8") as f:
+        case = f.read().strip()
     if not case:
         sys.exit("court: the case file is empty")
     seed = args.seed if args.seed is not None else random.randrange(1, 10 ** 6)
@@ -280,11 +290,21 @@ def cmd_prompts(args):
         print("court: %s is complete. Run: court.py next" % args.phase)
         return
     for w in range(0, len(todo), WAVE):
-        print("wave %d:" % (w // WAVE + 1))
-        for j in todo[w:w + WAVE]:
+        wave_num = w // WAVE + 1
+        chunk = todo[w:w + WAVE]
+        print("wave %d:" % wave_num)
+        for j in chunk:
             print("  %s  brief=%s" % (j["id"], j["brief"]))
-    print("Launch one Agent call per job, one wave at a time. Prompt: "
-          "\"Read <brief> and follow it exactly. It is your whole brief.\"")
+        tasks_json = json.dumps([
+            {
+                "name": ("court-%s-%s" % (args.phase, j["id"])).replace("_", "-")[:32],
+                "solutionSpace": "execute brief and write output",
+                "task": "Read %s and follow it exactly. Write output to %s" % (j["brief"], j["output"])
+            }
+            for j in chunk
+        ], indent=2)
+        print("omp task payload:\ntask(context=\"Execute court brief for phase %s\", tasks=%s)\n"
+              % (args.phase, tasks_json))
 
 
 def cmd_check(args):
