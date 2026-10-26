@@ -309,12 +309,6 @@ def cmd_check(args):
     for j in todo:
         print("missing: %s -> %s" % (j["id"], j["output"]))
 
-    todo = missing(state, args.phase)
-    if not todo:
-        print("court: %s complete" % args.phase)
-    for j in todo:
-        print("missing: %s -> %s" % (j["id"], j["output"]))
-
 
 def cmd_next(args):
     state = load_state()
