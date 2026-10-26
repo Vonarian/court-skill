@@ -32,7 +32,7 @@ QUICK_JURY = 6
 WAVE = 6
 CREDIT = ("_Made with [/court](https://github.com/alexyc9381/court-skill), an open-source AI skill (orig. by Alex Chen [@nocodealex])._")
 CHARGE = "The case fails as stated: it should not go ahead the way it is described."
-
+TIMEOUT_SECS = 120
 
 # ---------- state ----------
 
@@ -245,15 +245,12 @@ def render(state):
         f.write(text)
     return text
 
-
-# ---------- commands ----------
-
 def cmd_plan(args):
     n = jury_size(args)
     calls = 2 + 2 + n + 1
-    print("jury of %d: 2 opening statements, 2 rebuttals, %d jurors, 1 judge = %d sub-agent calls"
-          % (n, n, calls))
-
+    est_tokens = calls * 1800
+    print("jury of %d: 2 opening statements, 2 rebuttals, %d jurors, 1 judge = %d sub-agent calls (~%d tokens total)"
+          % (n, n, calls, est_tokens))
 
 def cmd_init(args):
     n = jury_size(args)
@@ -299,11 +296,11 @@ def cmd_prompts(args):
             {
                 "name": ("court-%s-%s" % (args.phase, j["id"])).replace("_", "-")[:32],
                 "solutionSpace": "execute brief and write output",
-                "task": "Read %s and follow it exactly. Write output to %s" % (j["brief"], j["output"])
+                "task": "Read %s and follow it exactly. Write output to %s. Max 350 words." % (j["brief"], j["output"])
             }
             for j in chunk
         ], indent=2)
-        print("omp task payload:\ntask(context=\"Execute court brief for phase %s\", tasks=%s)\n"
+        print("omp task payload:\ntask(context=\"Execute court brief for phase %s (budget limit: 400 words per subagent)\", tasks=%s)\n"
               % (args.phase, tasks_json))
 
 
