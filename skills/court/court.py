@@ -32,7 +32,6 @@ QUICK_JURY = 6
 WAVE = 6
 CREDIT = ("_Made with [/court](https://github.com/alexyc9381/court-skill), an open-source AI skill (orig. by Alex Chen [@nocodealex])._")
 CHARGE = "The case fails as stated: it should not go ahead the way it is described."
-TIMEOUT_SECS = 120
 
 # ---------- state ----------
 
@@ -300,12 +299,16 @@ def cmd_prompts(args):
             }
             for j in chunk
         ], indent=2)
-        print("omp task payload:\ntask(context=\"Execute court brief for phase %s (budget limit: 400 words per subagent)\", tasks=%s)\n"
+        print("omp task payload:\ntask(context=\"Execute court brief for phase %s (budget limit: 350 words per subagent)\", tasks=%s)\n"
               % (args.phase, tasks_json))
-
-
 def cmd_check(args):
     state = load_state()
+    todo = missing(state, args.phase)
+    if not todo:
+        print("court: %s complete" % args.phase)
+    for j in todo:
+        print("missing: %s -> %s" % (j["id"], j["output"]))
+
     todo = missing(state, args.phase)
     if not todo:
         print("court: %s complete" % args.phase)

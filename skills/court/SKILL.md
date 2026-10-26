@@ -43,26 +43,20 @@ Below, `COURT` means running `court.py` via your bash tool. The state lives in `
 ## Step 1: size it
 
 Read the flags out of the request. Everything that is not a flag is the case.
-
-| flag | meaning |
 | flag | meaning |
 | --- | --- |
 | `--jury N` | N jurors, 3 to 12. Default 12. |
 | `--quick` | 6 jurors. Recommended to cap token spend and latency. |
 | `--seed S` | Fixes which jurors sit on a smaller jury. Default: random, and recorded. |
 
-Run `COURT plan` with the same flags to inspect sub-agent calls and estimated token consumption.
+Run `COURT plan` with the same flags to inspect sub-agent calls and estimated token consumption. If this skill fired on its own (the user never asked for a trial), ask once first and offer `--quick`.
 
 ### Resource and budget boundaries
 
-- **Token Budget**: Each subagent brief enforces strict word counts (250–350 words maximum per statement or vote). Estimated tokens: ~20k for `--quick` (11 calls), ~30k for full trial (17 calls).
-- **Concurrency & Timeouts**: Subagents run in waves of at most 6 concurrent tasks. Timeouts per agent wave default to 120s.
+- **Token Budget**: Subagents are constrained to at most 350 words per output. Estimated total: ~20k tokens for `--quick` (11 calls), ~30k tokens for full trial (17 calls).
+- **Concurrency**: Subagents run in waves of at most 6 concurrent tasks.
 
 Sub-agents write into `.court/` in the current directory.
-
-Sub-agents write into `.court/` in the current directory.
-
-## Step 2: write the case file
 
 **Sub-agents cannot see this conversation.** The prosecutor, the defense, every juror and the judge
 know only what is in the case file, so write `.court/case.md` to stand on its own:
