@@ -12,7 +12,7 @@ license: MIT
 metadata:
   author: "Alex Chen (@nocodealex)"
   homepage: "https://chen.media"
-  source: "https://github.com/alexyc9381/court-skill"
+  source: "https://github.com/Vonarian/court-skill"
   version: "1.0.0"
 ---
 
