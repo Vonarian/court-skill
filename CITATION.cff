@@ -8,8 +8,10 @@ authors:
     family-names: Chen
     alias: nocodealex
     website: "https://chen.media"
-repository-code: "https://github.com/alexyc9381/court-skill"
-url: "https://chen.media/guides/put-your-idea-on-trial-in-front-of-a-jury-of-12-claudes-how-to-install-the-free-skill"
+  - name: "Vonarian"
+    website: "https://github.com/Vonarian"
+repository-code: "https://github.com/Vonarian/court-skill"
+url: "https://github.com/Vonarian/court-skill"
 license: MIT
 version: "1.0.0"
 date-released: "2026-10-03"
