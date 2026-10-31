@@ -8,7 +8,6 @@ description: >-
   user wants honest pushback instead of agreement, says the AI just agrees with
   everything, asks "is this a good idea", wants an idea, plan, pitch or claim
   stress-tested, or says "court" or "put it on trial".
-argument-hint: "[--jury N | --quick] [--seed S] <the idea, plan or claim>"
 license: MIT
 metadata:
   author: "Alex Chen (@nocodealex)"
