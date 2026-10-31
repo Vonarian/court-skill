@@ -27,14 +27,17 @@ and what to change before you try again.
 ### For OMP (Oh My Pi)
 
 Install into your OMP skills folder:
-
 ```bash
-# User-level skill
-git clone https://github.com/Vonarian/court-skill
-cp -r court-skill/skills/court ~/.omp/skills/
+# User-level skill:
+git clone https://github.com/Vonarian/court-skill /tmp/court-skill
+cp -r /tmp/court-skill/skills/court ~/.omp/skills/
+rm -rf /tmp/court-skill
 
-# Or project-level skill
-cp -r court-skill/skills/court .omp/skills/
+# Or project-level skill:
+mkdir -p .omp/skills
+git clone https://github.com/Vonarian/court-skill /tmp/court-skill
+cp -r /tmp/court-skill/skills/court .omp/skills/
+rm -rf /tmp/court-skill
 ```
 
 OMP discovers `court` automatically. You can invoke it via `/court` or refer to `skill://court`.
