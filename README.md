@@ -29,8 +29,7 @@ and what to change before you try again.
 Install into your OMP skills folder:
 ```bash
 # User-level skill (available in all projects):
-git clone https://github.com/Vonarian/court-skill ~/.omp/skills/court
-
+git clone https://github.com/Vonarian/court-skill ~/.omp/agent/skills/court
 # Or project-level skill:
 git clone https://github.com/Vonarian/court-skill .omp/skills/court
 ```
@@ -83,17 +82,14 @@ Go ahead. Credit it like this, in your caption or description:
 ```
 
 Tag [@nocodealex](https://instagram.com/nocodealex) so I can see it. Every verdict the skill writes already ends with the same credit, so leave it in the shot.
-
-Writing about it or citing it in a paper? Use **Cite this repository** in the sidebar on GitHub.
 ## Uninstall
 
 Remove the installed skill directory from your OMP installation:
 
 ```bash
-rm -rf ~/.omp/skills/court      # user-level
-rm -rf .omp/skills/court       # project-level
+rm -rf ~/.omp/agent/skills/court  # user-level
+rm -rf .omp/skills/court         # project-level
 ```
-
 ## License and Attribution
 
 Released under the MIT License. Based on the original [court-skill](https://github.com/alexyc9381/court-skill) by Alex Chen ([@nocodealex](https://instagram.com/nocodealex)). This fork adds native OMP subagent batching and test coverage.
